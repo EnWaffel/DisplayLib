@@ -30,4 +30,36 @@ public interface FillStylePattern {
         }
 
     }
+
+    class Checkerboard implements FillStylePattern {
+
+        private List<DisplayItem> items;
+        private boolean other;
+
+        @Override
+        public void begin(List<DisplayItem> items) {
+            this.items = items;
+        }
+
+        @Override
+        public DisplayItem next(int slot) {
+            if (items.size() < 2) return null;
+
+            if (other) {
+                other = false;
+                return items.get(1);
+            } else {
+                other = true;
+                return items.get(0);
+            }
+        }
+
+        @Override
+        public void reset() {
+            items = null;
+            other = false;
+        }
+
+    }
+
 }

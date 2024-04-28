@@ -65,8 +65,11 @@ public class DisplayImpl implements Display {
 
     @Override
     public void updateInventory() {
+        boolean invChanged = false;
+
         if (inv == null || _lastState != curState) {
             _lastState = curState;
+            invChanged = true;
 
             inv = Bukkit.createInventory(null, curState.getSize(), curState.getTitle());
         }
@@ -92,6 +95,7 @@ public class DisplayImpl implements Display {
 
         curState.getFillStyle().fill(inv, curState.getSize(), usedSlots, curState.getPattern());
 
+        if (!invChanged) return;
         for (Player player : players) {
             updatingPlayers.add(player);
             player.openInventory(inv);
